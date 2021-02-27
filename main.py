@@ -9,7 +9,7 @@ app = FastAPI()
 @app.post("/User/")
 async def createUser(user: User):
     db_worker = SQLighter("maindatabase.db")
-    db_worker.send_user(user.SberId, user.Name, user.Age, user.Gender, user.Active)
+    db_worker.send_user(user.UserId, user.SberId, user.Name, user.Age, user.Gender, user.Active)
     db_worker.close()
     return user
 
@@ -40,6 +40,13 @@ async def getUsersBySberId(sber_id: int):
     user = db_worker.get_users_by_sberid(sber_id)
     db_worker.close()
     return user
+
+@app.get("/ProverkaUsersByUserId/")
+async def ProverkaUsersByUserId(user_id: int):
+    db_worker = SQLighter("maindatabase.db")
+    ans = db_worker.proverka_by_user_id(user_id)
+    db_worker.close()
+    return ans
 
 @app.get("/AllCategoriesExirc/")
 async def getAllCategoriesExirc():
